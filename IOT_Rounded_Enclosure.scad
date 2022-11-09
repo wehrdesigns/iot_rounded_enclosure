@@ -51,7 +51,7 @@ depthF=0.3;      //light hole cutout location as fraction of enclosure depth
 
 lighttubeD=8;        //Depth of light tube
 
-tabR=0.2;   //Ridge Lock depth and width
+tabR=0.4;   //Ridge Lock depth and width
 
 pcbside = 7;
 pcblockD = 30;     //how deep the lock reaches over the pcb
@@ -109,6 +109,7 @@ module enclosure_front(){
         //hole for led
 //        led_cutout();
         light_sensor_cutout();
+        closure_tabs();
     }
     light_sensor_support();
     pcb_top_lock();
@@ -369,10 +370,10 @@ module wall_mount(){
 
 
 
-//enclosure_front();
+enclosure_front();
 // enclosure_back();
 
-pcb_holder();
+// pcb_holder();
 
 //pin();
 
