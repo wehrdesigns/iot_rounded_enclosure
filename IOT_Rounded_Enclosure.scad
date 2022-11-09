@@ -66,8 +66,10 @@ pcbCompD = pcbD-8;   //pcb Component Depth
 pcbCompW = pcbW-8;   //pcb Component Width
 pcbCompH = 5;   //pcb Component Height
 cutT = 0.4;       //cutout Tolerance
-//PinsOrRails = "pins"
-PinsOrRails = "rails";
+//SecurePCB = "pins"
+// SecurePCB = "rails";
+SecurePCB = "screws";
+screwR = 1;
 railcutoutZoff = 4;   //Z offset from holder to center of rail cutout
 pcbholderrailH = railcutoutZoff+pcbT+2;  //
 pcbholderrailW = 1.5;
@@ -282,8 +284,30 @@ module pcb_holder(){
             cube([holdD,holdW+cutT,holdH+cutT]);
             translate([(holdD-pcbCompD)*0.5,(holdW-pcbCompW)*0.5,-J])
             cube([pcbCompD,pcbCompW,pcbCompH]);
+            if (SecurePCB == "screws"){
+                //screw holes for pcb
+                translate([(holdD-holeDd)*0.5,
+                            (holdW-holeDw)*0.5,
+                            -J])
+                cylinder(pcbCompH*2,screwR,screwR);
+                    
+                translate([holeDd+(holdD-holeDd)*0.5,
+                            (holdW-holeDw)*0.5,
+                            -J])
+                cylinder(pcbCompH*2,screwR,screwR);
+                    
+                translate([(holdD-holeDd)*0.5,
+                            holeDw+(holdW-holeDw)*0.5,
+                            -J])
+                cylinder(pcbCompH*2,screwR,screwR);
+                    
+                translate([holeDd+(holdD-holeDd)*0.5,
+                            holeDw+(holdW-holeDw)*0.5,
+                            -J])
+                cylinder(pcbCompH*2,screwR,screwR);
+            }
         }
-        if (PinsOrRails == "pins"){
+        if (SecurePCB == "pins"){
             //pins to hold pcb
             translate([(holdD-holeDd)*0.5,
                         (holdW-holeDw)*0.5,
@@ -305,7 +329,7 @@ module pcb_holder(){
                         holdH-J])
             cylinder(pinH,pinR,pinR);
         }
-        if (PinsOrRails == "rails"){
+        if (SecurePCB == "rails"){
             difference()
             {
                 translate([0,0.5*(holdW-pcbW)-pcbholderrailW,holdH])
@@ -346,7 +370,7 @@ module wall_mount(){
 
 
 //enclosure_front();
-enclosure_back();
+// enclosure_back();
 
 pcb_holder();
 
