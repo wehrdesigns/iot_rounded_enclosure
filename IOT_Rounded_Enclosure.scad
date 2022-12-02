@@ -237,12 +237,18 @@ module pcb_supports(){
         cube([supD,supW,supH]);
         }
         pcb_holder();
+        //create slight tolerance
+        translate([0,-0.1,0.1])
+        pcb_holder();
     }
     
     difference(){
         translate([enclD-supD-wallT,enclW*0.5+holdW*0.5-supO,wallT-J]){
         cube([supD,supW,supH]);
         }
+        pcb_holder();
+        //create slight tolerance
+        translate([0,0.1,0.1])
         pcb_holder();
     }
 }
@@ -370,8 +376,8 @@ module wall_mount(){
 
 
 
-enclosure_front();
-// enclosure_back();
+// enclosure_front();
+enclosure_back();
 
 // pcb_holder();
 
