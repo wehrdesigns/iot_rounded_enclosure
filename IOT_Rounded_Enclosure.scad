@@ -1,5 +1,5 @@
-$fa = 1;
-$fs = 0.4;
+// $fa = 1;
+// $fs = 0.4;
 J = 0.001;
 
 pcbW = 29;          //Width of pcb for esp32
@@ -39,6 +39,8 @@ supH = 10;            //Support Height
 supW = 6;           //Support Width
 supD = enclD*0.6;      //Support Depth
 supO = 2;            //Support Overlap
+supcutoutR = 3;         //cutout for pcb
+supcutoutOffset = 1;    //Offset cutout from the top of the pcb support
 
 usbR=11*0.5;        //Radius of micro usb plug for round hole
 usbW = usbR*0.65;   //Width of rectancular micro usb cutout
@@ -232,24 +234,31 @@ module closure_tabs(){
     cube([3*tabR,tabR,enclD-6*RR]);
 }
 module pcb_supports(){
-    difference(){
+    // difference()
+    {
         translate([enclD-supD-wallT,enclW*0.5-holdW*0.5-supW+supO,wallT-J]){
         cube([supD,supW,supH]);
         }
-        pcb_holder();
-        //create slight tolerance
-        translate([0,-0.1,0.1])
-        pcb_holder();
+        // pcb_holder();
+        // //create slight tolerance
+        // translate([0,-0.1,0.1])
+        // pcb_holder();
+        translate([enclD-supD-wallT,enclW*0.5-holdW*0.5-0*supW+supO,wallT-J+supH-supcutoutR-supcutoutOffset])
+        rotate([90,0,90])
+        cylinder(supD,r=supcutoutR);        
+        translate([enclD-supD-wallT,enclW*0.5+holdW*0.5+0*supW-supO,wallT-J+supH-supcutoutR-supcutoutOffset])
+        rotate([90,0,90])
+        cylinder(supD,r=supcutoutR);
     }
     
     difference(){
         translate([enclD-supD-wallT,enclW*0.5+holdW*0.5-supO,wallT-J]){
         cube([supD,supW,supH]);
         }
-        pcb_holder();
-        //create slight tolerance
-        translate([0,0.1,0.1])
-        pcb_holder();
+        // pcb_holder();
+        // //create slight tolerance
+        // translate([0,0.1,0.1])
+        // pcb_holder();
     }
 }
 
@@ -381,10 +390,10 @@ enclosure_back();
 
 // pcb_holder();
 
-//pin();
+// pin();
 
 //light_sensor_tube();
 //light_sensor_cutout();
 //led_cutout();
 
-//wall_mount();
+// wall_mount();
